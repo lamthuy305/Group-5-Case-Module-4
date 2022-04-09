@@ -20,4 +20,9 @@ public class Image {
 
     @ManyToOne
     private Food food;
+
+    public Image(String name, Food food) {
+        this.name = name;
+        this.food = food;
+    }
 }

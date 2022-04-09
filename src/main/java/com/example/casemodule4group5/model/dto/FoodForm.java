@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 @Data
 @AllArgsConstructor
@@ -13,11 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class FoodForm {
     private Long id;
 
-    private String foodName;
-
-    private MultipartFile img;
+    private String name;
 
     private double price;
+
+    private MultipartFile img;
 
     private double salePrice;
 
@@ -28,4 +30,6 @@ public class FoodForm {
     private String dayChange;
 
     private Tag tag;
+
+    private List<MultipartFile> images;
 }
