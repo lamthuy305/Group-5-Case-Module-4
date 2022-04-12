@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "foods")
@@ -35,7 +36,7 @@ public class Food {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "food_tag")
-    private List<Tag> tag;
+    private Set<Tag> tag;
 
     private Long countViews;
 
