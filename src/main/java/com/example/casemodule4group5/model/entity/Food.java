@@ -41,6 +41,9 @@ public class Food {
 
     private Long countBuys;
 
+    @ManyToOne
+    private User user;
+
     public Food(Long id, String name, String img, String description, double price, double salePrice, double serviceFee, String dayCreate, String dayChange, Long countViews, Long countBuys) {
         this.id = id;
         this.name = name;
