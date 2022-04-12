@@ -26,6 +26,12 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<Order> save(@RequestBody Order order) {
+        return new ResponseEntity<>(orderService.save(order), HttpStatus.CREATED);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Order> findById(@PathVariable Long id) {
         Optional<Order> productOptional = orderService.findById(id);
@@ -35,7 +41,8 @@ public class OrderController {
         return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);
     }
 
-    @PutMapping ("/{id}")
+
+    @PutMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
         Optional<Order> productOptional = orderService.findById(id);
         if (!productOptional.isPresent()) {
