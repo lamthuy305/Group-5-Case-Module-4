@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order_detail")
+@Table(name = "carts")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,9 +17,11 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long order_id;
+    @ManyToOne
+    private Order order;
 
-    private Long food_id;
+    @OneToOne
+    private Food food;
 
     private double quantity;
 
