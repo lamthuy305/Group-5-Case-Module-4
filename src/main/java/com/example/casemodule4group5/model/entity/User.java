@@ -30,6 +30,7 @@ public class User {
     @JoinTable(name = "user_role")
     private List<Role> roles;
 
+
     public User(String name, String email, String password, Restaurant restaurant, List<Role> roles) {
         this.name = name;
         this.email = email;
