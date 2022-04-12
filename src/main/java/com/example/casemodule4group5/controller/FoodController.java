@@ -66,7 +66,7 @@ public class FoodController {
         String fileName = img.getOriginalFilename();
         long currentTime = System.currentTimeMillis();
         fileName = currentTime + fileName;
-        Long idMax = Long.valueOf(0);
+        Long idMax = 0L;
         Food foodMaxId = foodService.findfoodMaxId();
         if (foodMaxId != null){
             idMax = foodMaxId.getId();
@@ -74,7 +74,7 @@ public class FoodController {
         Long curentID = idMax + 1;
         Date date = new Date();
         String dayCreate = date.toString();
-        Food food = new Food(curentID, foodForm.getName(), fileName, foodForm.getDescription(), foodForm.getPrice(), foodForm.getSalePrice(), foodForm.getServiceFee(), dayCreate, dayCreate);
+        Food food = new Food(curentID, foodForm.getName(), fileName, foodForm.getDescription(), foodForm.getPrice(), foodForm.getSalePrice(), foodForm.getServiceFee(), dayCreate, dayCreate,0L,0L);
         foodService.save(food);
         try {
             FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));

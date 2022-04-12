@@ -19,4 +19,6 @@ public class Tag { // giống category
     private String name;
 
     private String slug;
+
+    private Long countViews;
 }

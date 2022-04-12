@@ -37,7 +37,11 @@ public class Food {
     @JoinTable(name = "food_tag")
     private List<Tag> tag;
 
-    public Food(Long id, String name, String img, String description, double price, double salePrice, double serviceFee, String dayCreate, String dayChange) {
+    private Long countViews;
+
+    private Long countBuys;
+
+    public Food(Long id, String name, String img, String description, double price, double salePrice, double serviceFee, String dayCreate, String dayChange, Long countViews, Long countBuys) {
         this.id = id;
         this.name = name;
         this.img = img;
@@ -47,5 +51,7 @@ public class Food {
         this.serviceFee = serviceFee;
         this.dayCreate = dayCreate;
         this.dayChange = dayChange;
+        this.countViews = countViews;
+        this.countBuys = countBuys;
     }
 }
