@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tag {
+public class Tag { // giống category
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,4 +19,6 @@ public class Tag {
     private String name;
 
     private String slug;
+
+    private Long countViews;
 }
