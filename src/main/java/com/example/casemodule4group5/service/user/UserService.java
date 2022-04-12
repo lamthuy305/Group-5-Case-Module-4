@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
@@ -40,7 +38,7 @@ public class UserService implements IUserService {
         String password = user.getPassword();
         String encodePassword = passwordEncoder.encode(password);//Mã hóa pass của người dùng
         user.setPassword(encodePassword);
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(new Role(2L, "ROLE_USER"));
         user.setRoles(roles);
         return userRepository.save(user);

@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,7 +31,7 @@ public class UserPrincipal implements UserDetails {
 
 
     public static UserPrincipal build(User user) {
-        List<Role> roles = user.getRoles(); //Lấy ra role của user
+        Set<Role> roles = user.getRoles(); //Lấy ra role của user
         List<GrantedAuthority> authorities = new ArrayList<>(); //tạo một list quyền cho user principal
         for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName())); //thêm quyền vào list
