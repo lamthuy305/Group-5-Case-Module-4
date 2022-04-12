@@ -43,4 +43,9 @@ public class FoodService implements IFoodService {
     public Food findfoodMaxId() {
         return foodRepository.findfoodMaxId();
     }
+
+    @Override
+    public Page<Food> findAllFoodByTag(Long id, Pageable pageable) {
+        return foodRepository.findAllFoodByTag(id, pageable);
+    }
 }

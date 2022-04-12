@@ -19,9 +19,11 @@ public class Food {
 
     private String name;
 
-    private double price;
+    private String img; // 1 ảnh đại diện món ăn
 
-    private String img;
+    private String description;
+
+    private double price;
 
     private double salePrice;
 
@@ -35,11 +37,12 @@ public class Food {
     @JoinTable(name = "food_tag")
     private List<Tag> tag;
 
-    public Food(Long id, String name, double price, String img, double salePrice, double serviceFee, String dayCreate, String dayChange) {
+    public Food(Long id, String name, String img, String description, double price, double salePrice, double serviceFee, String dayCreate, String dayChange) {
         this.id = id;
         this.name = name;
-        this.price = price;
         this.img = img;
+        this.description = description;
+        this.price = price;
         this.salePrice = salePrice;
         this.serviceFee = serviceFee;
         this.dayCreate = dayCreate;

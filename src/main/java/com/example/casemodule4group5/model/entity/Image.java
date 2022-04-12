@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Image {
+public class Image { // List ảnh món ăn thực tế
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

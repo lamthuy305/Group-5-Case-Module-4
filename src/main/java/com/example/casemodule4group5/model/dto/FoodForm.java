@@ -17,9 +17,11 @@ public class FoodForm {
 
     private String name;
 
-    private double price;
-
     private MultipartFile img;
+
+    private String description;
+
+    private double price;
 
     private double salePrice;
 

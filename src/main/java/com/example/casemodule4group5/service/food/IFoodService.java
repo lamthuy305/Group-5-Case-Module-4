@@ -9,4 +9,6 @@ public interface IFoodService extends IGeneralService<Food> {
     Page<Food> findFoodByNameContaining(String name, Pageable pageable);
 
     Food findfoodMaxId();
+
+    Page<Food> findAllFoodByTag(Long id, Pageable pageable);
 }

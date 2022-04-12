@@ -3,7 +3,6 @@ package com.example.casemodule4group5.controller;
 import com.example.casemodule4group5.model.dto.FoodForm;
 import com.example.casemodule4group5.model.entity.Food;
 import com.example.casemodule4group5.model.entity.Image;
-import com.example.casemodule4group5.model.entity.Tag;
 import com.example.casemodule4group5.service.food.IFoodService;
 import com.example.casemodule4group5.service.image.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +36,7 @@ public class FoodController {
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Page<Food>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(20) Pageable pageable) {
+    public ResponseEntity<Page<Food>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(5) Pageable pageable) {
         Page<Food> foods = foodService.findAll(pageable);
         if (q.isPresent()) {
             foods = foodService.findFoodByNameContaining(q.get(), pageable);
@@ -45,11 +45,11 @@ public class FoodController {
     }
 
 
-//    @GetMapping("/tags/{id}")
-//    public ResponseEntity<Page<Tag>> findAllFoodByTag(@PathVariable Long id, @PageableDefault(10) Pageable pageable) {
-//        Page<Tag> products = foodService.findAllFoodByTag(id, pageable);
-//        return new ResponseEntity<>(products, HttpStatus.OK);
-//    }
+    @GetMapping("/tags/{id}")
+    public ResponseEntity<Page<Food>> findAllFoodByTag(@PathVariable Long id, @PageableDefault(20) Pageable pageable) {
+        Page<Food> foods = foodService.findAllFoodByTag(id, pageable);
+        return new ResponseEntity<>(foods, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Food> findById(@PathVariable Long id) {
@@ -66,11 +66,21 @@ public class FoodController {
         String fileName = img.getOriginalFilename();
         long currentTime = System.currentTimeMillis();
         fileName = currentTime + fileName;
+        Long idMax = Long.valueOf(0);
         Food foodMaxId = foodService.findfoodMaxId();
-        Long idMax = foodMaxId.getId();
+        if (foodMaxId != null){
+            idMax = foodMaxId.getId();
+        }
         Long curentID = idMax + 1;
-        Food food = new Food(curentID, foodForm.getName(), foodForm.getPrice(), fileName, foodForm.getSalePrice(), foodForm.getServiceFee(), foodForm.getDayCreate(), foodForm.getDayChange());
+        Date date = new Date();
+        String dayCreate = date.toString();
+        Food food = new Food(curentID, foodForm.getName(), fileName, foodForm.getDescription(), foodForm.getPrice(), foodForm.getSalePrice(), foodForm.getServiceFee(), dayCreate, dayCreate);
         foodService.save(food);
+        try {
+            FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Image imageFood = new Image(fileName, food);
         iImageService.save(imageFood);
 
@@ -117,13 +127,13 @@ public class FoodController {
 //        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //    }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
-//        Optional<Product> productOptional = productService.findById(id);
-//        if (!productOptional.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        productService.removeById(id);
-//        return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Food> deleteProduct(@PathVariable Long id) {
+        Optional<Food> productOptional = foodService.findById(id);
+        if (!productOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        foodService.removeById(id);
+        return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);
+    }
 }
