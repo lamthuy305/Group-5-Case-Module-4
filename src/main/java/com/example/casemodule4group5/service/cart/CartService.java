@@ -12,25 +12,25 @@ import java.util.Optional;
 @Service
 public class CartService implements ICartService {
     @Autowired
-    private CartRepository orderDetailRepository;
+    private CartRepository cartRepository;
 
     @Override
     public Page<Cart> findAll(Pageable pageable) {
-        return orderDetailRepository.findAll(pageable);
+        return cartRepository.findAll(pageable);
     }
 
     @Override
     public Optional<Cart> findById(Long id) {
-        return orderDetailRepository.findById(id);
+        return cartRepository.findById(id);
     }
 
     @Override
-    public Cart save(Cart orderDetail) {
-        return orderDetailRepository.save(orderDetail);
+    public Cart save(Cart cart) {
+        return cartRepository.save(cart);
     }
 
     @Override
     public void removeById(Long id) {
-        orderDetailRepository.deleteById(id);
+        cartRepository.deleteById(id);
     }
 }
