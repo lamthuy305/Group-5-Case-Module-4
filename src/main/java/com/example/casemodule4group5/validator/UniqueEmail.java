@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD,ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {UniqueUsernameValidator.class})
-public @interface UniqueUsername {
+@Constraint(validatedBy = {UniqueEmailValidator.class})
+public @interface UniqueEmail {
     String message() default "Email is existed!";
 
     Class<?>[] groups() default {};

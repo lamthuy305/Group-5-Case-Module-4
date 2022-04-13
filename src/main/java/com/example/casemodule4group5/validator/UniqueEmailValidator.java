@@ -6,10 +6,10 @@ import com.example.casemodule4group5.repostory.IUserRepository;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername,String> {
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail,String> {
     private IUserRepository userRepository;
 
-    public UniqueUsernameValidator(IUserRepository userRepository) {
+    public UniqueEmailValidator(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

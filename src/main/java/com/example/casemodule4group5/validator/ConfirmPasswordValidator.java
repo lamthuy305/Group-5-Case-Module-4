@@ -9,6 +9,9 @@ public class ConfirmPasswordValidator implements ConstraintValidator<PasswordCon
 
     @Override
     public boolean isValid(PasswordForm passwordForm, ConstraintValidatorContext context) {
-        return passwordForm.getPassword().equals(passwordForm.getConfirmPassword());
+        if(passwordForm.getPassword().equals(passwordForm.getConfirmPassword())){
+            return true;
+        }
+        return false;
     }
 }

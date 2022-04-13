@@ -1,8 +1,7 @@
 package com.example.casemodule4group5.controller;
 
 import com.example.casemodule4group5.model.dto.JwtResponse;
-import com.example.casemodule4group5.model.dto.SignUpFormForCTV;
-import com.example.casemodule4group5.model.dto.SignUpFormForGuest;
+import com.example.casemodule4group5.model.dto.SignUpForm;
 import com.example.casemodule4group5.model.entity.User;
 import com.example.casemodule4group5.service.JwtService;
 import com.example.casemodule4group5.service.user.IUserService;
@@ -47,27 +46,16 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), userDetails.getAuthorities()));
     }
 
-    @PostMapping("/registerGuest")
-    public ResponseEntity<User> registerForGuest(@Valid @RequestBody SignUpFormForGuest signUpFormForGuest, BindingResult bindingResult) {
+    @PostMapping("/register")
+    public ResponseEntity<User> register(@Valid @RequestBody SignUpForm signUpForm, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()){
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if (!signUpFormForGuest.getPasswordForm().getPassword().equals(signUpFormForGuest.getPasswordForm().getConfirmPassword()) || userService.checkRegexPassword(signUpFormForGuest.getPasswordForm().getPassword())) {
+        if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        User user = new User(signUpFormForGuest.getName(), signUpFormForGuest.getEmail(), signUpFormForGuest.getPasswordForm().getPassword(), signUpFormForGuest.getRoles());
+        User user = new User(signUpForm.getName(), signUpForm.getEmail(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 
-    @PostMapping("/registerCTV")
-    public ResponseEntity<User> registerForCTV(@Valid @RequestBody SignUpFormForCTV signUpFormForCTV, BindingResult bindingResult) {
-        if (bindingResult.hasFieldErrors()){
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        if (!signUpFormForCTV.getPasswordForm().getPassword().equals(signUpFormForCTV.getPasswordForm().getConfirmPassword()) || userService.checkRegexPassword(signUpFormForCTV.getPasswordForm().getPassword())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        User user = new User(signUpFormForCTV.getName(), signUpFormForCTV.getEmail(), signUpFormForCTV.getPasswordForm().getPassword(), signUpFormForCTV.getRestaurant(), signUpFormForCTV.getRoles());
-        return new ResponseEntity<>(userService.saveForCTV(user), HttpStatus.CREATED);
-    }
 }

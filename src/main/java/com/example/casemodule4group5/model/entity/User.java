@@ -21,7 +21,7 @@ public class User {
 
     private String name;
 
-    @Column(columnDefinition = "Varchar(12)",nullable = false, unique = true)
+    @Column(columnDefinition = "Varchar(50)",nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
