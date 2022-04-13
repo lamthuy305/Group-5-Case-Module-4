@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
 public interface IImageRepository extends PagingAndSortingRepository<Image, Long> {
-   @Query(value = "select * from images i join foods on i.food_id = foods.id where food_id=?1",nativeQuery = true)
-   Page<Image> findImageByFoodId(Long id, Pageable pageable);
+
+    @Query(value = "select * from images i join foods on i.food_id = foods.id where food_id=?1", nativeQuery = true)
+    Page<Image> findImageByFoodId(Long id, Pageable pageable);
 }

@@ -2,6 +2,7 @@ package com.example.casemodule4group5.model.dto;
 
 import com.example.casemodule4group5.model.entity.Category;
 import com.example.casemodule4group5.model.entity.Tag;
+import com.example.casemodule4group5.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,8 @@ public class FoodForm {
     private Tag tag;
 
     private List<MultipartFile> images;
+
+    private User user;
 
     private Category category;
 }

@@ -7,13 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ImageService implements IImageService {
     @Autowired
     private IImageRepository imageRepository;
+
 
     @Override
     public Page<Image> findAll(Pageable pageable) {
@@ -35,8 +35,9 @@ public class ImageService implements IImageService {
         imageRepository.deleteById(id);
     }
 
+
     @Override
-    public Page<Image> findImageByFoodId(Long id,Pageable pageable) {
-        return imageRepository.findImageByFoodId(id,pageable);
+    public Page<Image> findImageByFoodId(Long id, Pageable pageable) {
+        return imageRepository.findImageByFoodId(id, pageable);
     }
 }
