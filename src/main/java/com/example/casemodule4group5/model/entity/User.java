@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -19,8 +21,10 @@ public class User {
 
     private String name;
 
+    @Column(columnDefinition = "Varchar(12)",nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     @OneToOne
@@ -35,6 +39,13 @@ public class User {
         this.email = email;
         this.password = password;
         this.restaurant = restaurant;
+        this.roles = roles;
+    }
+
+    public User(String name, String email, String password, List<Role> roles) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
         this.roles = roles;
     }
 }

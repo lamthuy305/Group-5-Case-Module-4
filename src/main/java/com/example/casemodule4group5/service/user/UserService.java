@@ -47,6 +47,17 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User saveForCTV(User user) {
+        String password = user.getPassword();
+        String encodePassword = passwordEncoder.encode(password);//Mã hóa pass của người dùng
+        user.setPassword(encodePassword);
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role(3L, "ROLE_CTV"));
+        user.setRoles(roles);
+        return userRepository.save(user);
+    }
+
+    @Override
     public void removeById(Long id) {
         userRepository.deleteById(id);
     }

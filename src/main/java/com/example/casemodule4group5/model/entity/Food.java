@@ -21,6 +21,8 @@ public class Food {
 
     private String img;
 
+    private String description;
+
     private double price;
 
     private double salePrice;

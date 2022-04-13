@@ -1,24 +1,19 @@
-package com.example.casemodule4group5.model.entity;
+package com.example.casemodule4group5.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "restaurants")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Restaurant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class RestaurantForm {
     private Long id;
 
     private String name;
 
-    private String img;
+    private MultipartFile img;
 
     private String address;
 
