@@ -35,5 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4522361eb3f88ed4340e19a2a51ae2b7fbac51d3
 .env
