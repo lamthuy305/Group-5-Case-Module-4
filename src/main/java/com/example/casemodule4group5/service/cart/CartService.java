@@ -1,7 +1,7 @@
 package com.example.casemodule4group5.service.cart;
 
 import com.example.casemodule4group5.model.entity.Cart;
-import com.example.casemodule4group5.repostory.CartRepository;
+import com.example.casemodule4group5.repostory.ICartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class CartService implements ICartService {
     @Autowired
-    private CartRepository cartRepository;
+    private ICartRepository cartRepository;
 
     @Override
     public Page<Cart> findAll(Pageable pageable) {
