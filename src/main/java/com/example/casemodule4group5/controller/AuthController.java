@@ -37,6 +37,7 @@ public class AuthController {
         //Kiểm tra username và pass có đúng hay không
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+
         //Lưu user đang đăng nhập vào trong context của security
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

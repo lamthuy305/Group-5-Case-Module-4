@@ -33,4 +33,19 @@ public class FoodService implements IFoodService {
     public void removeById(Long id) {
         foodRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Food> findFoodByNameContaining(String name, Pageable pageable) {
+        return foodRepository.findFoodByNameContaining(name, pageable);
+    }
+
+    @Override
+    public Food findfoodMaxId() {
+        return foodRepository.findfoodMaxId();
+    }
+
+    @Override
+    public Page<Food> findAllFoodByTag(String slug, Pageable pageable) {
+        return foodRepository.findAllFoodByTag(slug, pageable);
+    }
 }
