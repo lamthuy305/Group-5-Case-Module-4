@@ -5,20 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "categories")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+@AllArgsConstructor
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private User user;
-
-    private Date createDate;
+    private String name;
 }

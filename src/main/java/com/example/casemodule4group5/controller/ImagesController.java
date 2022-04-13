@@ -36,7 +36,7 @@ public class ImagesController {
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Page<Image>> findAll(@RequestParam Optional<Long> id, @PageableDefault(5) Pageable pageable) {
+    public ResponseEntity<Page<Image>> findAll(@RequestParam Optional<Long> id, @PageableDefault(40) Pageable pageable) {
         Page<Image> images = imageService.findAll(pageable);
         if (id.isPresent()) {
             images = imageService.findImageByFoodId(id.get(), pageable);
@@ -44,6 +44,7 @@ public class ImagesController {
 
         return new ResponseEntity<>(images, HttpStatus.OK);
     }
+
 
     @PostMapping("/{id}")
     public ResponseEntity<List<Image>> save(@PathVariable Optional<Long> id, @ModelAttribute ImageForm imageForm) {
@@ -73,6 +74,13 @@ public class ImagesController {
         return new ResponseEntity<>(imageList, HttpStatus.CREATED);
     }
 
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<Image> deleteImage()
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Image> deleteImage(@PathVariable Long id) {
+        Optional<Image> imageOptional = imageService.findById(id);
+        if (!imageOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        imageService.removeById(id);
+        return new ResponseEntity<>(imageOptional.get(), HttpStatus.OK);
+    }
 }
