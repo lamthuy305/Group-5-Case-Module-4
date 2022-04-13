@@ -99,7 +99,7 @@ public class FoodController {
                 imageFood = new Image(fileName, food);
                 imageService.save(imageFood);
             }
-            return new ResponseEntity<>(foodService.save(food), HttpStatus.CREATED);
+            return new ResponseEntity<>(food, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

@@ -46,7 +46,6 @@ public class ImagesController {
     }
 
 
-
     @PostMapping("/{id}")
     public ResponseEntity<List<Image>> save(@PathVariable Optional<Long> id, @ModelAttribute ImageForm imageForm) {
         Optional<Food> food = foodService.findById(id.get());
@@ -75,6 +74,13 @@ public class ImagesController {
         return new ResponseEntity<>(imageList, HttpStatus.CREATED);
     }
 
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<Image> deleteImage()
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Image> deleteImage(@PathVariable Long id) {
+        Optional<Image> imageOptional = imageService.findById(id);
+        if (!imageOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        imageService.removeById(id);
+        return new ResponseEntity<>(imageOptional.get(), HttpStatus.OK);
+    }
 }
