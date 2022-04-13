@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/tags")
@@ -22,7 +24,27 @@ public class TagController {
     }
 
     @PostMapping
-    public ResponseEntity<Tag> save(@ModelAttribute Tag tag) {
+    public ResponseEntity<Tag> save(@RequestBody Tag tag) {
         return new ResponseEntity<>(tagService.save(tag), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Tag> deleteTag(@PathVariable Long id) {
+        Optional<Tag> tagOptional = tagService.findById(id);
+        if (!tagOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        tagService.removeById(id);
+        return new ResponseEntity<>(tagOptional.get(), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Tag> updateTag(@PathVariable Long id, @RequestBody Tag tag) {
+        Optional<Tag> tagOptional = tagService.findById(id);
+        if (!tagOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        tag.setId(id);
+        return new ResponseEntity<>(tagService.save(tag), HttpStatus.OK);
     }
 }
