@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequestMapping("/carts")
 public class CartController {
     @Autowired
-    ICartService cartService;
+    private ICartService cartService;
 
     @GetMapping
     public ResponseEntity<Page<Cart>> findAll(@PageableDefault(5) Pageable pageable) {
