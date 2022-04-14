@@ -80,9 +80,12 @@ public class UserService implements IUserService {
         return Pattern.matches(regex, email);
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         return UserPrincipal.build(user);
     }
+
+
 }

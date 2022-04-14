@@ -7,4 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface IRestaurantService extends IGeneralService<Restaurant> {
     Page<Restaurant> findAllByName(String name, Pageable pageable);
+    Restaurant findRestaurantMaxID();
 }

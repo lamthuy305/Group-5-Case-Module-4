@@ -14,4 +14,5 @@ public interface IUserService extends IGeneralService<User>, UserDetailsService 
     boolean checkRegexEmail(String email);
 
     User saveCTV(User user);
+
 }
