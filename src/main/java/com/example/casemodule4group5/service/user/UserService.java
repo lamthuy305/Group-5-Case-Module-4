@@ -45,8 +45,22 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User saveCTV(User user) {
+        Set<Role> roles = user.getRoles();
+        roles.add(new Role(3L, "ROLE_CTV"));
+        user.setRoles(roles);
+        return userRepository.save(user);
+    }
+
+
+    @Override
     public void removeById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<User> findAll() {
+        return userRepository.findAll();
     }
 
     @Override
@@ -56,8 +70,14 @@ public class UserService implements IUserService {
 
     @Override
     public boolean checkRegexPassword(String password) {
-        String regex = "^(?=.*[A-Za-z])(?=.*\\\\d)[A-Za-z\\\\d]{6,}$";
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$";
         return Pattern.matches(regex, password);
+    }
+
+    @Override
+    public boolean checkRegexEmail(String email) {
+        String regex = "[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[A-Za-z]{2,6}";
+        return Pattern.matches(regex, email);
     }
 
     @Override

@@ -33,4 +33,9 @@ public class RestaurantService implements IRestaurantService {
     public void removeById(Long id) {
         restaurantRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Restaurant> findAllByName(String name, Pageable pageable) {
+        return restaurantRepository.findAllByName(name, pageable);
+    }
 }
