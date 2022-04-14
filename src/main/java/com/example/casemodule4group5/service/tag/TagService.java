@@ -33,4 +33,9 @@ public class TagService implements ITagService {
     public void removeById(Long id) {
         tagRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Tag> findTagByNameContaining(String name, Pageable pageable) {
+        return tagRepository.findTagByNameContaining(name, pageable);
+    }
 }
