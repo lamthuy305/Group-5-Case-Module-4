@@ -1,9 +1,10 @@
 package com.example.casemodule4group5.controller;
 
 import com.example.casemodule4group5.model.dto.JwtResponse;
+
 import com.example.casemodule4group5.model.dto.RestaurantForm;
 import com.example.casemodule4group5.model.dto.SignUpForm;
-import com.example.casemodule4group5.model.dto.UserPrincipal;
+
 import com.example.casemodule4group5.model.entity.Restaurant;
 import com.example.casemodule4group5.model.entity.User;
 import com.example.casemodule4group5.service.JwtService;
@@ -18,9 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.Valid;
+import java.util.Optional;
+
 
 
 @RestController
@@ -36,11 +37,16 @@ public class AuthController {
     private JwtService jwtService;
 
 
+    @GetMapping("/users")
+    public ResponseEntity<Iterable<User>> findAll() {
+        Iterable<User> users = userService.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtService.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -58,6 +64,22 @@ public class AuthController {
         }
         User user = new User(signUpForm.getName(), signUpForm.getEmail(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/registerCTV/{id}")
+    public ResponseEntity<User> registerCTV(@RequestParam Long id, @RequestBody RestaurantForm restaurantForm) {
+        Optional<User> user = userService.findById(id);
+        if (!user.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        String name = restaurantForm.getName();
+        String img = String.valueOf(restaurantForm.getImg());
+        String address = restaurantForm.getAddress();
+        String openTime = restaurantForm.getOpenTime();
+        String closeTime = restaurantForm.getCloseTime();
+        Restaurant restaurant = new Restaurant(name, img, address, openTime, closeTime);
+        user.get().setRestaurant(restaurant);
+        return new ResponseEntity<>(userService.saveCTV(user.get()), HttpStatus.OK);
     }
 
 
