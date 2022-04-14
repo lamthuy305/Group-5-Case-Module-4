@@ -28,7 +28,7 @@ public class RestaurantController {
     @Autowired
     IRestaurantService restaurantService;
 
-    @Value("${upload-file}")
+    @Value("${file-upload}")
     private String uploadPath;
 
     @GetMapping

@@ -39,6 +39,7 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody User user) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtService.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -51,7 +52,7 @@ public class AuthController {
         if (bindingResult.hasFieldErrors()){
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || userService.checkRegexEmail(signUpForm.getEmail())) {
+        if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || !userService.checkRegexEmail(signUpForm.getEmail())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         User user = new User(signUpForm.getName(), signUpForm.getEmail(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
