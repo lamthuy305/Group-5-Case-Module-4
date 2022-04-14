@@ -19,4 +19,8 @@ public interface IFoodRepository extends PagingAndSortingRepository<Food, Long> 
     Page<Food> findAllFoodByTag(String slug, Pageable pageable);
 
 
+
+
+
+
 }
