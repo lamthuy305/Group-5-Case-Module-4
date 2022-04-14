@@ -7,24 +7,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "restaurants")
+@Table(name = "categories")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Restaurant { // Cửa hàng
+@AllArgsConstructor
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
-
-    private String img;
-
-    @Column(nullable = false)
-    private String address;
-
-    private String openTime;
-
-    private String closeTime;
 }

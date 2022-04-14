@@ -44,6 +44,7 @@ public class UserService implements IUserService {
         return userRepository.save(user);
     }
 
+
     @Override
     public void removeById(Long id) {
         userRepository.deleteById(id);
@@ -56,8 +57,14 @@ public class UserService implements IUserService {
 
     @Override
     public boolean checkRegexPassword(String password) {
-        String regex = "^(?=.*[A-Za-z])(?=.*\\\\d)[A-Za-z\\\\d]{6,}$";
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$";
         return Pattern.matches(regex, password);
+    }
+
+    @Override
+    public boolean checkRegexEmail(String email) {
+        String regex = "[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[A-Za-z]{2,6}";
+        return Pattern.matches(regex,email);
     }
 
     @Override

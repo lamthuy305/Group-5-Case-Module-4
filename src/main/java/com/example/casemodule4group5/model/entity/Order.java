@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "orders")
@@ -19,6 +20,5 @@ public class Order {
     @ManyToOne
     private User user;
 
-    private String createDate;
-
+    private Date createDate;
 }

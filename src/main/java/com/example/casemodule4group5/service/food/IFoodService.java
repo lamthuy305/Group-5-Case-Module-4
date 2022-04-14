@@ -10,5 +10,5 @@ public interface IFoodService extends IGeneralService<Food> {
 
     Food findfoodMaxId();
 
-    Page<Food> findAllFoodByTag(Long id, Pageable pageable);
+    Page<Food> findAllFoodByTag(String slug, Pageable pageable);
 }

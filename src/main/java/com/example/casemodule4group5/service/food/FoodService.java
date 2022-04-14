@@ -45,7 +45,7 @@ public class FoodService implements IFoodService {
     }
 
     @Override
-    public Page<Food> findAllFoodByTag(Long id, Pageable pageable) {
-        return foodRepository.findAllFoodByTag(id, pageable);
+    public Page<Food> findAllFoodByTag(String slug, Pageable pageable) {
+        return foodRepository.findAllFoodByTag(slug, pageable);
     }
 }

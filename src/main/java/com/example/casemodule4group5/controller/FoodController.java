@@ -1,6 +1,7 @@
 package com.example.casemodule4group5.controller;
 
 import com.example.casemodule4group5.model.dto.FoodForm;
+import com.example.casemodule4group5.model.entity.Category;
 import com.example.casemodule4group5.model.entity.Food;
 import com.example.casemodule4group5.model.entity.Image;
 import com.example.casemodule4group5.service.food.IFoodService;
@@ -30,26 +31,23 @@ public class FoodController {
     private IFoodService foodService;
 
     @Autowired
-    private IImageService iImageService;
+    private IImageService imageService;
 
     @Value("${file-upload}")
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Page<Food>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(5) Pageable pageable) {
+    public ResponseEntity<Page<Food>> findAll(@RequestParam(name = "q") Optional<String> q, @RequestParam(name = "slug") Optional<String> slug, @PageableDefault(5) Pageable pageable) {
         Page<Food> foods = foodService.findAll(pageable);
         if (q.isPresent()) {
             foods = foodService.findFoodByNameContaining(q.get(), pageable);
         }
+        if (slug.isPresent()) {
+            foods = foodService.findAllFoodByTag(slug.get(), pageable);
+        }
         return new ResponseEntity<>(foods, HttpStatus.OK);
     }
 
-
-    @GetMapping("/tags/{id}")
-    public ResponseEntity<Page<Food>> findAllFoodByTag(@PathVariable Long id, @PageableDefault(20) Pageable pageable) {
-        Page<Food> foods = foodService.findAllFoodByTag(id, pageable);
-        return new ResponseEntity<>(foods, HttpStatus.OK);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Food> findById(@PathVariable Long id) {
@@ -60,6 +58,7 @@ public class FoodController {
         return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);
     }
 
+
     @PostMapping
     public ResponseEntity<Food> save(@ModelAttribute FoodForm foodForm) {
         MultipartFile img = foodForm.getImg();
@@ -68,21 +67,22 @@ public class FoodController {
         fileName = currentTime + fileName;
         Long idMax = 0L;
         Food foodMaxId = foodService.findfoodMaxId();
-        if (foodMaxId != null){
+        if (foodMaxId != null) {
             idMax = foodMaxId.getId();
         }
         Long curentID = idMax + 1;
         Date date = new Date();
-        String dayCreate = date.toString();
-        Food food = new Food(curentID, foodForm.getName(), fileName, foodForm.getDescription(), foodForm.getPrice(), foodForm.getSalePrice(), foodForm.getServiceFee(), dayCreate, dayCreate,0L,0L);
+        Food food = new Food(curentID, foodForm.getName(), fileName, foodForm.getDescription(), foodForm.getPrice(), foodForm.getSalePrice(), foodForm.getServiceFee(), date, date, 0L, 0L, foodForm.getUser(), foodForm.getCategory());
         foodService.save(food);
         try {
             FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         Image imageFood = new Image(fileName, food);
-        iImageService.save(imageFood);
+        imageService.save(imageFood);
 
         List<MultipartFile> images = foodForm.getImages();
         if (images.size() > 0) {
@@ -96,36 +96,39 @@ public class FoodController {
                     e.printStackTrace();
                 }
                 imageFood = new Image(fileName, food);
-                iImageService.save(imageFood);
+                imageService.save(imageFood);
             }
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(food, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-//    @PostMapping("/{id}")
-//    public ResponseEntity<Product> updateProduct(@PathVariable Long id, ProductForm productForm) {
-//        Optional<Product> productOptional = productService.findById(id);
-//        if (!productOptional.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        MultipartFile image = productForm.getImage();
-//        if (image.getSize() != 0) {
-//            String fileName = productForm.getImage().getOriginalFilename();
-//            long currentTime = System.currentTimeMillis();
-//            fileName = currentTime + fileName;
-//            try {
-//                FileCopyUtils.copy(productForm.getImage().getBytes(), new File(uploadPath + fileName));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            Product product = new Product(id, productForm.getName(), productForm.getPrice(), productForm.getDescription(), fileName, productForm.getCategory());
-//            List<ImageProduct> imageProducts = Collections.singletonList(productForm.getImageProduct());
-//
-//            return new ResponseEntity<>(productService.save(product), HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
+    @PostMapping("/{id}")
+    public ResponseEntity<Food> updateFood(@PathVariable Long id, @ModelAttribute FoodForm foodForm) {
+        Optional<Food> optionalFood = foodService.findById(id);
+        if (!optionalFood.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        MultipartFile img = foodForm.getImg();
+        String fileName = "";
+        if (img != null) {
+            fileName = img.getOriginalFilename();
+            long currentTime = System.currentTimeMillis();
+            fileName = currentTime + fileName;
+            try {
+                FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            fileName = optionalFood.get().getImg();
+        }
+        Date dayChange = new Date();
+        Food newFood = new Food(id, foodForm.getName(), fileName, foodForm.getDescription(), foodForm.getPrice(), foodForm.getSalePrice(), foodForm.getServiceFee(), optionalFood.get().getDayCreate(), dayChange, optionalFood.get().getCountViews(), optionalFood.get().getCountBuys(), foodForm.getUser(), foodForm.getCategory());
+        foodService.save(newFood);
+        return new ResponseEntity<>(newFood, HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Food> deleteProduct(@PathVariable Long id) {

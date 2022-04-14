@@ -14,6 +14,7 @@ public class ImageService implements IImageService {
     @Autowired
     private IImageRepository imageRepository;
 
+
     @Override
     public Page<Image> findAll(Pageable pageable) {
         return imageRepository.findAll(pageable);
@@ -32,5 +33,11 @@ public class ImageService implements IImageService {
     @Override
     public void removeById(Long id) {
         imageRepository.deleteById(id);
+    }
+
+
+    @Override
+    public Page<Image> findImageByFoodId(Long id, Pageable pageable) {
+        return imageRepository.findImageByFoodId(id, pageable);
     }
 }
