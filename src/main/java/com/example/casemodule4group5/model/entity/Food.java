@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,12 +18,15 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     private String img; // 1 ảnh đại diện món ăn
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private double price;
 
     private double salePrice;
