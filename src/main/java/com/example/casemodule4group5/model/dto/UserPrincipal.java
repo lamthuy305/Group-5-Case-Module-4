@@ -29,7 +29,6 @@ public class UserPrincipal implements UserDetails {
 
     private List<? extends GrantedAuthority> roles;
 
-
     public static UserPrincipal build(User user) {
         Set<Role> roles = user.getRoles(); //Lấy ra role của user
         List<GrantedAuthority> authorities = new ArrayList<>(); //tạo một list quyền cho user principal

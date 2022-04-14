@@ -11,4 +11,7 @@ public interface IUserService extends IGeneralService<User>, UserDetailsService 
     boolean checkRegexPassword(String password);
 
     boolean checkRegexEmail(String email);
+
+    User updateRole(Long roleId,Long userId);
+
 }

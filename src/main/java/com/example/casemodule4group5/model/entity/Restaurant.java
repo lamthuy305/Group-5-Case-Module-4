@@ -27,4 +27,12 @@ public class Restaurant { // Cửa hàng
     private String openTime;
 
     private String closeTime;
+
+    public Restaurant(String name, String img, String address, String openTime, String closeTime) {
+        this.name = name;
+        this.img = img;
+        this.address = address;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+    }
 }

@@ -68,8 +68,15 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User updateRole(Long roleId,Long userId) {
+        return userRepository.updateRole(roleId,userId);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         return UserPrincipal.build(user);
     }
+
+
 }
