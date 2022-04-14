@@ -44,6 +44,14 @@ public class UserService implements IUserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public User saveCTV(User user) {
+        Set<Role> roles = user.getRoles();
+        roles.add(new Role(3L, "ROLE_CTV"));
+        user.setRoles(roles);
+        return userRepository.save(user);
+    }
+
 
     @Override
     public void removeById(Long id) {
