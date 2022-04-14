@@ -48,4 +48,5 @@ public class FoodService implements IFoodService {
     public Page<Food> findAllFoodByTag(String slug, Pageable pageable) {
         return foodRepository.findAllFoodByTag(slug, pageable);
     }
+
 }
