@@ -25,7 +25,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/images")
-public class ImagesController {
+public class ImageController {
     @Autowired
     private IImageService imageService;
 
@@ -36,12 +36,11 @@ public class ImagesController {
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Page<Image>> findAll(@RequestParam Optional<Long> id, @PageableDefault(40) Pageable pageable) {
-        Page<Image> images = imageService.findAll(pageable);
+    public ResponseEntity<Page<Image>> findAllImage(@RequestParam Optional<Long> id, @PageableDefault(40) Pageable pageable) {
+        Page<Image> images = imageService.findAll(pageable); //xem lại
         if (id.isPresent()) {
             images = imageService.findImageByFoodId(id.get(), pageable);
         }
-
         return new ResponseEntity<>(images, HttpStatus.OK);
     }
 
@@ -52,7 +51,6 @@ public class ImagesController {
         if (!food.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         List<MultipartFile> images = imageForm.getImages();
         List<Image> imageList = new ArrayList<>();
         if (images.size() > 0) {
