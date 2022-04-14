@@ -37,7 +37,7 @@ public class ImageController {
 
     @GetMapping
     public ResponseEntity<Page<Image>> findAllImage(@RequestParam Optional<Long> id, @PageableDefault(40) Pageable pageable) {
-        Page<Image> images = null; //xem lại
+        Page<Image> images = imageService.findAll(pageable); //xem lại
         if (id.isPresent()) {
             images = imageService.findImageByFoodId(id.get(), pageable);
         }
