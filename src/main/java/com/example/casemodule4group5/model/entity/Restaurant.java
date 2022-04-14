@@ -16,10 +16,12 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     private String img;
 
+    @Column(nullable = false)
     private String address;
 
     private String openTime;

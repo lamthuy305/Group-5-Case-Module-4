@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
@@ -17,12 +18,15 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String foodName;
 
     private String img;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private double price;
 
     private double salePrice;

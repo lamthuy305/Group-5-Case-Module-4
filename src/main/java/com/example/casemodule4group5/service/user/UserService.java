@@ -64,6 +64,12 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public boolean checkRegexEmail(String email) {
+        String regex = "[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[A-Za-z]{2,6}";
+        return Pattern.matches(regex,email);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         return UserPrincipal.build(user);

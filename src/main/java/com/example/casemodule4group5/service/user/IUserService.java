@@ -9,4 +9,6 @@ public interface IUserService extends IGeneralService<User>, UserDetailsService 
     User findByEmail(String email);
 
     boolean checkRegexPassword(String password);
+
+    boolean checkRegexEmail(String email);
 }

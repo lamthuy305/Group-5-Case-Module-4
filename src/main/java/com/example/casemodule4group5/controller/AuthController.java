@@ -51,7 +51,7 @@ public class AuthController {
         if (bindingResult.hasFieldErrors()){
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword())) {
+        if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || userService.checkRegexEmail(signUpForm.getEmail())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         User user = new User(signUpForm.getName(), signUpForm.getEmail(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
