@@ -51,6 +51,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public Iterable<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -64,7 +69,7 @@ public class UserService implements IUserService {
     @Override
     public boolean checkRegexEmail(String email) {
         String regex = "[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[A-Za-z]{2,6}";
-        return Pattern.matches(regex,email);
+        return Pattern.matches(regex, email);
     }
 
     @Override

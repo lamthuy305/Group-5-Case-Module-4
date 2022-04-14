@@ -14,10 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -35,6 +32,12 @@ public class AuthController {
     private JwtService jwtService;
 
 
+    @GetMapping("/users")
+    public ResponseEntity<Iterable<User>> findAll() {
+        Iterable<User> users = userService.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         Authentication authentication = authenticationManager.authenticate(
@@ -49,8 +52,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody SignUpForm signUpForm, BindingResult bindingResult) {
-        if (bindingResult.hasFieldErrors()){
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (bindingResult.hasFieldErrors()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || !userService.checkRegexEmail(signUpForm.getEmail())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
