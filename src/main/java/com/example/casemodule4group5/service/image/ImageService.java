@@ -20,6 +20,7 @@ public class ImageService implements IImageService {
         return imageRepository.findAll(pageable);
     }
 
+
     @Override
     public Optional<Image> findById(Long id) {
         return imageRepository.findById(id);
@@ -37,7 +38,13 @@ public class ImageService implements IImageService {
 
 
     @Override
-    public Page<Image> findImageByFoodId(Long id, Pageable pageable) {
-        return imageRepository.findImageByFoodId(id, pageable);
+    public Iterable<Image> findImageByFoodId(Long id) {
+        return imageRepository.findImageByFoodId(id);
     }
+
+    @Override
+    public Iterable<Image> findAll() {
+        return imageRepository.findAll();
+    }
+
 }

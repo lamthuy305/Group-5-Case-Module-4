@@ -20,7 +20,7 @@ public class TagController {
     private ITagService tagService;
 
     @GetMapping
-    public ResponseEntity<Page<Tag>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(5) Pageable pageable) {
+    public ResponseEntity<Page<Tag>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(50) Pageable pageable) {
         Page<Tag> tags = tagService.findAll(pageable);
         if (q.isPresent()) {
             tags = tagService.findTagByNameContaining(q.get(), pageable);

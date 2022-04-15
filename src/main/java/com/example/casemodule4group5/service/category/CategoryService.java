@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class CategoryService implements ICategorySerivce {
     @Autowired
@@ -44,6 +45,11 @@ public class CategoryService implements ICategorySerivce {
     @Override
     public List<IFoodCount> countTotalFoodOfCategoryInterface() {
         return categoryRepository.countTotalFoodOfCategoryInterface();
+    }
+
+    @Override
+    public Iterable<Category> findAllByNameContaining(String name) {
+        return categoryRepository.findAllByNameContaining(name);
     }
 
 }

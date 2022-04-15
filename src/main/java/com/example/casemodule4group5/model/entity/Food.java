@@ -39,7 +39,7 @@ public class Food {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "food_tag")
-    private Set<Tag> tag;
+    private Set<Tag> tags;
 
     private Long countViews;
 

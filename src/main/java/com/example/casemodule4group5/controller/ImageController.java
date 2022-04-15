@@ -36,10 +36,10 @@ public class ImageController {
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Page<Image>> findAllImage(@RequestParam Optional<Long> id, @PageableDefault(40) Pageable pageable) {
-        Page<Image> images = imageService.findAll(pageable); //xem lại
+    public ResponseEntity<Iterable<Image>> findAllImage(@RequestParam Optional<Long> id) {
+        Iterable<Image> images = imageService.findAll();
         if (id.isPresent()) {
-            images = imageService.findImageByFoodId(id.get(), pageable);
+            images = imageService.findImageByFoodId(id.get());
         }
         return new ResponseEntity<>(images, HttpStatus.OK);
     }

@@ -3,13 +3,12 @@ package com.example.casemodule4group5.model.dto;
 import com.example.casemodule4group5.model.entity.Category;
 import com.example.casemodule4group5.model.entity.Tag;
 import com.example.casemodule4group5.model.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -32,7 +31,7 @@ public class FoodForm {
 
     private Date dayChange;
 
-    private Tag tag;
+    private Set<Tag> tags;
 
     private List<MultipartFile> images;
 

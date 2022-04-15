@@ -9,4 +9,5 @@ import java.util.List;
 public interface ICategorySerivce extends IGeneralService<Category> {
     Iterable<Category> findAll();
     List<IFoodCount> countTotalFoodOfCategoryInterface();
+    Iterable<Category> findAllByNameContaining(String name);
 }
