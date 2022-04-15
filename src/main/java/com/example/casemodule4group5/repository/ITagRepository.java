@@ -1,6 +1,5 @@
-package com.example.casemodule4group5.repostory;
+package com.example.casemodule4group5.repository;
 
-import com.example.casemodule4group5.model.entity.Food;
 import com.example.casemodule4group5.model.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

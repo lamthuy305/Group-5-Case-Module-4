@@ -5,10 +5,9 @@ import com.example.casemodule4group5.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -23,5 +22,30 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @PostMapping("/check")
+    public ResponseEntity<User> checkUserBan(@RequestBody User user) {
+        Iterable<User> users = userService.findAll();
+        for (User user1 : users) {
+            if (user1.getEmail().equals(user.getEmail())) {
+                return new ResponseEntity<>(user1, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> banUser(@PathVariable Long id) {
+        Optional<User> user = userService.findById(id);
+        if (!user.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (user.get().isActive()) {
+            user.get().setActive(false);
+            return new ResponseEntity<>(userService.save(user.get()), HttpStatus.OK);
+        } else {
+            user.get().setActive(true);
+            return new ResponseEntity<>(userService.save(user.get()), HttpStatus.OK);
+        }
+    }
 
 }

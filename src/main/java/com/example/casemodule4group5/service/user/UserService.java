@@ -3,7 +3,7 @@ package com.example.casemodule4group5.service.user;
 import com.example.casemodule4group5.model.dto.UserPrincipal;
 import com.example.casemodule4group5.model.entity.Role;
 import com.example.casemodule4group5.model.entity.User;
-import com.example.casemodule4group5.repostory.IUserRepository;
+import com.example.casemodule4group5.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

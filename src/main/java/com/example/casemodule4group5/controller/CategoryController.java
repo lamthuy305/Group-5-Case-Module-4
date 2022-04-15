@@ -2,8 +2,7 @@ package com.example.casemodule4group5.controller;
 
 import com.example.casemodule4group5.model.dto.CategoryForm;
 import com.example.casemodule4group5.model.entity.Category;
-import com.example.casemodule4group5.repostory.IFoodCount;
-import com.example.casemodule4group5.repostory.IFoodRepository;
+import com.example.casemodule4group5.repository.IFoodCount;
 import com.example.casemodule4group5.service.category.ICategorySerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

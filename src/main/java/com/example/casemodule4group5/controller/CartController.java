@@ -21,9 +21,13 @@ public class CartController {
     private ICartService cartService;
 
     @GetMapping
-    public ResponseEntity<Page<Cart>> findAll(@PageableDefault(20) Pageable pageable) {
+    public ResponseEntity<Page<Cart>> findAll(@RequestParam(name = "id") Optional<Long> id, @PageableDefault(20) Pageable pageable) {
         Page<Cart> carts = cartService.findAll(pageable);
+        if (id.isPresent()) {
+            carts = cartService.findCartByOrderId(id.get(), pageable);
+        }
         return new ResponseEntity<>(carts, HttpStatus.OK);
+
     }
 
     @PostMapping

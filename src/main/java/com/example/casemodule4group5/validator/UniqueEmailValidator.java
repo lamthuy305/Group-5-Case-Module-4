@@ -1,7 +1,7 @@
 package com.example.casemodule4group5.validator;
 
 import com.example.casemodule4group5.model.entity.User;
-import com.example.casemodule4group5.repostory.IUserRepository;
+import com.example.casemodule4group5.repository.IUserRepository;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
