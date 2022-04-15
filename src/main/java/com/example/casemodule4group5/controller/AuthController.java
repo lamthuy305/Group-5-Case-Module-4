@@ -42,14 +42,6 @@ public class AuthController {
     @Autowired
     private JwtService jwtService;
 
-
-    @GetMapping("/users")
-    public ResponseEntity<Iterable<User>> findAll() {
-        Iterable<User> users = userService.findAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         Authentication authentication = authenticationManager.authenticate(

@@ -49,7 +49,7 @@ public class CategoryController {
         MultipartFile image = categoryForm.getImage();
         String fileName = image.getOriginalFilename();
         long currentTime = System.currentTimeMillis();
-        fileName = currentTime+fileName;
+        fileName = currentTime + fileName;
         try {
             FileCopyUtils.copy(image.getBytes(), new File(uploadPath + fileName));
         } catch (IOException e) {
@@ -66,18 +66,20 @@ public class CategoryController {
         if (!categoryOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        MultipartFile image = categoryForm.getImage();
-        String fileName = image.getOriginalFilename();
-        long currentTime = System.currentTimeMillis();
-        fileName = currentTime+fileName;
-        try {
-            FileCopyUtils.copy(image.getBytes(), new File(uploadPath + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         Category category = categoryOptional.get();
-        category.setImage(fileName);
+        MultipartFile image = categoryForm.getImage();
+        if (image != null) {
+            String fileName = image.getOriginalFilename();
+            long currentTime = System.currentTimeMillis();
+            fileName = currentTime + fileName;
+            try {
+                FileCopyUtils.copy(image.getBytes(), new File(uploadPath + fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            category.setImage(fileName);
+
+        }
         category.setName(categoryForm.getName());
         categorySerivce.save(category);
         return new ResponseEntity<>(categorySerivce.save(category), HttpStatus.OK);
