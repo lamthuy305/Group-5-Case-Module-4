@@ -1,7 +1,7 @@
 package com.example.casemodule4group5.service.restaurant;
 
 import com.example.casemodule4group5.model.entity.Restaurant;
-import com.example.casemodule4group5.repostory.IRestaurantRepository;
+import com.example.casemodule4group5.repository.IRestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

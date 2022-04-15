@@ -1,7 +1,7 @@
 package com.example.casemodule4group5.service.tag;
 
 import com.example.casemodule4group5.model.entity.Tag;
-import com.example.casemodule4group5.repostory.ITagRepository;
+import com.example.casemodule4group5.repository.ITagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

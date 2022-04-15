@@ -1,7 +1,7 @@
 package com.example.casemodule4group5.service.category;
 
 import com.example.casemodule4group5.model.entity.Category;
-import com.example.casemodule4group5.repostory.IFoodCount;
+import com.example.casemodule4group5.repository.IFoodCount;
 import com.example.casemodule4group5.service.IGeneralService;
 
 import java.util.List;

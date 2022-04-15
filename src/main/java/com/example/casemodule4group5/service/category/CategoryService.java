@@ -1,8 +1,8 @@
 package com.example.casemodule4group5.service.category;
 
 import com.example.casemodule4group5.model.entity.Category;
-import com.example.casemodule4group5.repostory.ICategoryRepository;
-import com.example.casemodule4group5.repostory.IFoodCount;
+import com.example.casemodule4group5.repository.ICategoryRepository;
+import com.example.casemodule4group5.repository.IFoodCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -27,6 +27,8 @@ public class UserPrincipal implements UserDetails {
 
     private Restaurant restaurant;
 
+    private boolean isActive;
+
     private List<? extends GrantedAuthority> roles;
 
     public static UserPrincipal build(User user) {
@@ -41,6 +43,7 @@ public class UserPrincipal implements UserDetails {
                 user.getEmail(),
                 user.getPassword(),
                 user.getRestaurant(),
+                user.isActive(),
                 authorities
         );
     }
@@ -66,21 +69,21 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return isActive;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isActive;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return isActive;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isActive;
     }
 }

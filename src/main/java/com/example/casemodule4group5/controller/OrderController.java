@@ -27,10 +27,10 @@ public class OrderController {
     ICartService cartService;
 
     @GetMapping
-    public ResponseEntity<Page<Order>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(5) Pageable pageable) {
+    public ResponseEntity<Page<Order>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(20) Pageable pageable) {
         Page<Order> orders = orderService.findAll(pageable);
         if (q.isPresent()) {
-//            orders = orderService.findFoodByNameContaining(q.get(), pageable);
+            orders = orderService.findOrderByEmail(q.get(), pageable);
         }
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }

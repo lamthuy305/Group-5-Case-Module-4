@@ -1,7 +1,7 @@
 package com.example.casemodule4group5.service.role;
 
 import com.example.casemodule4group5.model.entity.Role;
-import com.example.casemodule4group5.repostory.IRoleRepository;
+import com.example.casemodule4group5.repository.IRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

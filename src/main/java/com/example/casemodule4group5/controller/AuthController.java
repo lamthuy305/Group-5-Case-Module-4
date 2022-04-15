@@ -61,7 +61,7 @@ public class AuthController {
         if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || !userService.checkRegexEmail(signUpForm.getEmail())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        User user = new User(signUpForm.getName(), signUpForm.getEmail(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles());
+        User user = new User(signUpForm.getName(), signUpForm.getEmail(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles(),true);
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 

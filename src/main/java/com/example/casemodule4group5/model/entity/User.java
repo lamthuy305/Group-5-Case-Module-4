@@ -21,7 +21,7 @@ public class User {
 
     private String name;
 
-    @Column(columnDefinition = "Varchar(50)",nullable = false, unique = true)
+    @Column(columnDefinition = "Varchar(50)", nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -34,20 +34,23 @@ public class User {
     @JoinTable(name = "user_role")
     private Set<Role> roles;
 
+    private boolean isActive;
 
-    public User(String name, String email, String password, Restaurant restaurant, Set<Role> roles) {
+    public User(String name, String email, String password, Restaurant restaurant, Set<Role> roles, boolean isActive) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.restaurant = restaurant;
         this.roles = roles;
+        this.isActive = isActive;
     }
 
-    public User(String name, String email, String password, Set<Role> roles) {
+    public User(String name, String email, String password, Set<Role> roles, boolean isActive) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.isActive = isActive;
     }
 
 }

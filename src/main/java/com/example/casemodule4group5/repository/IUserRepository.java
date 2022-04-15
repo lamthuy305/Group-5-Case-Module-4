@@ -1,4 +1,4 @@
-package com.example.casemodule4group5.repostory;
+package com.example.casemodule4group5.repository;
 
 import com.example.casemodule4group5.model.entity.User;
 import org.springframework.data.jpa.repository.Query;

@@ -39,6 +39,7 @@ public class TagController {
 
     @PostMapping
     public ResponseEntity<Tag> save(@RequestBody Tag tag) {
+        tag.setCountViews(0L);
         return new ResponseEntity<>(tagService.save(tag), HttpStatus.CREATED);
     }
 
