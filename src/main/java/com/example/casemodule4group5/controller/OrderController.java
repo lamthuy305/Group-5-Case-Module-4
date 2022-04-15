@@ -1,6 +1,9 @@
 package com.example.casemodule4group5.controller;
 
+import com.example.casemodule4group5.model.entity.Cart;
+import com.example.casemodule4group5.model.entity.Image;
 import com.example.casemodule4group5.model.entity.Order;
+import com.example.casemodule4group5.service.cart.ICartService;
 import com.example.casemodule4group5.service.order.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +22,9 @@ import java.util.Optional;
 public class OrderController {
     @Autowired
     IOrderService orderService;
+
+    @Autowired
+    ICartService cartService;
 
     @GetMapping
     public ResponseEntity<Page<Order>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(5) Pageable pageable) {
@@ -56,10 +62,14 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Order> deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<Order> deleteOrder(@PathVariable Long id, Pageable pageable) {
         Optional<Order> productOptional = orderService.findById(id);
         if (!productOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Page<Cart> carts = cartService.findCartByOrderId(id, pageable);
+        for (Cart cart : carts) {
+            cartService.removeById(cart.getId());
         }
         orderService.removeById(id);
         return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);

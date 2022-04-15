@@ -21,7 +21,7 @@ public class CartController {
     private ICartService cartService;
 
     @GetMapping
-    public ResponseEntity<Page<Cart>> findAll(@PageableDefault(5) Pageable pageable) {
+    public ResponseEntity<Page<Cart>> findAll(@PageableDefault(20) Pageable pageable) {
         Page<Cart> carts = cartService.findAll(pageable);
         return new ResponseEntity<>(carts, HttpStatus.OK);
     }

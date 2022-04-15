@@ -43,7 +43,7 @@ public class FoodController {
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Page<Food>> findAll(@RequestParam(name = "q") Optional<String> q, @RequestParam(name = "slug") Optional<String> slug, @PageableDefault(5) Pageable pageable) {
+    public ResponseEntity<Page<Food>> findAll(@RequestParam(name = "q") Optional<String> q, @RequestParam(name = "slug") Optional<String> slug, @PageableDefault(20) Pageable pageable) {
         Page<Food> foods = foodService.findAll(pageable);
         if (q.isPresent()) {
             foods = foodService.findFoodByNameContaining(q.get(), pageable);
@@ -140,6 +140,10 @@ public class FoodController {
         Optional<Food> productOptional = foodService.findById(id);
         if (!productOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Iterable<Image> images = imageService.findImageByFoodId(id);
+        for (Image image : images) {
+            imageService.removeById(image.getId());
         }
         foodService.removeById(id);
         return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);

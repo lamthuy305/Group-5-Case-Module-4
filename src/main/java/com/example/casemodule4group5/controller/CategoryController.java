@@ -29,8 +29,11 @@ public class CategoryController {
     private String uploadPath;
 
     @GetMapping
-    public ResponseEntity<Iterable<Category>> findAll() {
+    public ResponseEntity<Iterable<Category>> findAll(@RequestParam(name = "q") Optional<String> q) {
         Iterable<Category> categories = categorySerivce.findAll();
+        if (q.isPresent()) {
+            categories = categorySerivce.findAllByNameContaining(q.get());
+        }
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 

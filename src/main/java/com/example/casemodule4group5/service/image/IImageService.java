@@ -8,5 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IImageService extends IGeneralService<Image> {
 
-    Page<Image> findImageByFoodId(Long id, Pageable pageable);
+    Iterable<Image> findImageByFoodId(Long id);
+
+    Iterable<Image> findAll();
 }
