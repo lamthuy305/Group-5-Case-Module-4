@@ -27,6 +27,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(columnDefinition = "Varchar(10)",nullable = false,unique = true)
+    private String phoneNumber;
+
     @OneToOne
     private Restaurant restaurant;
 

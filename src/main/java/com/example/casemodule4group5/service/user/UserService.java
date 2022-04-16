@@ -52,16 +52,18 @@ public class UserService implements IUserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public boolean checkRegexPhoneNumber(String phoneNumber) {
+        String regex = "^0\\d{8,9}$";
+        return Pattern.matches(regex, phoneNumber);
+    }
+
 
     @Override
     public void removeById(Long id) {
         userRepository.deleteById(id);
     }
 
-    @Override
-    public Iterable<User> findAll() {
-        return userRepository.findAll();
-    }
 
     @Override
     public User findByEmail(String email) {
@@ -86,6 +88,5 @@ public class UserService implements IUserService {
         User user = userRepository.findByEmail(email);
         return UserPrincipal.build(user);
     }
-
 
 }

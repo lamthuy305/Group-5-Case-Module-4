@@ -12,6 +12,8 @@ import com.example.casemodule4group5.service.JwtService;
 import com.example.casemodule4group5.service.restaurant.IRestaurantService;
 import com.example.casemodule4group5.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,8 +46,8 @@ public class AuthController {
 
 
     @GetMapping("/users")
-    public ResponseEntity<Iterable<User>> findAll() {
-        Iterable<User> users = userService.findAll();
+    public ResponseEntity<Iterable<User>> findAll(Pageable pageable) {
+        Page<User> users = userService.findAll(pageable);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -84,7 +86,7 @@ public class AuthController {
         if (restaurantMaxId != null) {
             idMax = restaurantMaxId.getId();
         }
-        Long curentID = idMax + 1;
+        Long currentID = idMax + 1;
 
         MultipartFile img = restaurantForm.getImg();
         String fileName = img.getOriginalFilename();
@@ -94,7 +96,7 @@ public class AuthController {
         String address = restaurantForm.getAddress();
         String openTime = restaurantForm.getOpenTime();
         String closeTime = restaurantForm.getCloseTime();
-        Restaurant restaurant = new Restaurant(curentID, name, fileName, address, openTime, closeTime);
+        Restaurant restaurant = new Restaurant(currentID, name, fileName, address, openTime, closeTime);
         restaurantService.save(restaurant);
         user.get().setRestaurant(restaurant);
         return new ResponseEntity<>(userService.saveCTV(user.get()), HttpStatus.OK);

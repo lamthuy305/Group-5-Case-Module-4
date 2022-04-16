@@ -33,4 +33,10 @@ public class OrderService implements IOrderService {
     public void removeById(Long id) {
         orderRepository.deleteById(id);
     }
+
+
+    @Override
+    public Page<Order> findOrdersByUserId(Long id, Pageable pageable) {
+        return orderRepository.findOrdersByUserId(id,pageable);
+    }
 }

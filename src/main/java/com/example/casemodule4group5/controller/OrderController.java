@@ -2,6 +2,7 @@ package com.example.casemodule4group5.controller;
 
 import com.example.casemodule4group5.model.entity.Order;
 import com.example.casemodule4group5.service.order.IOrderService;
+import com.example.casemodule4group5.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,9 @@ import java.util.Optional;
 public class OrderController {
     @Autowired
     IOrderService orderService;
+
+    @Autowired
+    IUserService userService;
 
     @GetMapping
     public ResponseEntity<Page<Order>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(5) Pageable pageable) {
@@ -64,5 +68,7 @@ public class OrderController {
         orderService.removeById(id);
         return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);
     }
+
+
 }
 
