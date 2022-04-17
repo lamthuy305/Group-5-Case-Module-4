@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface ICartService extends IGeneralService<Cart> {
     Page<Cart> findCartByOrderId(Long id, Pageable pageable);
+
+    Iterable<Cart> findCartByOrderId(Long id);
 }

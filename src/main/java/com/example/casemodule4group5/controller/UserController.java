@@ -22,6 +22,15 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<User>> findById(@PathVariable Long id) {
+        Optional<User> user = userService.findById(id);
+        if (!user.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @PostMapping("/check")
     public ResponseEntity<User> checkUserBan(@RequestBody User user) {
         Iterable<User> users = userService.findAll();
