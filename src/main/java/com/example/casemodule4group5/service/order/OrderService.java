@@ -39,4 +39,9 @@ public class OrderService implements IOrderService {
         email = "%" + email + "%";
         return orderRepository.findOrderByEmail(email, pageable);
     }
+
+    @Override
+    public Page<Order> findOrderByUserId(Long id, Pageable pageable) {
+        return orderRepository.findOrderByUserId(id, pageable);
+    }
 }

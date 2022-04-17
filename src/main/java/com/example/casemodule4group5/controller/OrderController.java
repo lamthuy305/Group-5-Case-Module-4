@@ -27,7 +27,7 @@ public class OrderController {
     ICartService cartService;
 
     @GetMapping
-    public ResponseEntity<Page<Order>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(20) Pageable pageable) {
+    public ResponseEntity<Page<Order>> findAll(@RequestParam(name = "q") Optional<String> q, @PageableDefault(5) Pageable pageable) {
         Page<Order> orders = orderService.findAll(pageable);
         if (q.isPresent()) {
             orders = orderService.findOrderByEmail(q.get(), pageable);
@@ -48,6 +48,12 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Page<Order>> findOrderByUserId(@PathVariable Long id, Pageable pageable) {
+        Page<Order> orders = orderService.findOrderByUserId(id, pageable);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
 

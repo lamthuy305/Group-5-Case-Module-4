@@ -30,6 +30,12 @@ public class CartController {
 
     }
 
+    @GetMapping("/order/{id}")
+    public ResponseEntity<Iterable<Cart>> findCartByOrderId(@PathVariable Long id) {
+        Iterable<Cart> carts = cartService.findCartByOrderId(id);
+        return new ResponseEntity<>(carts, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Cart> save(@RequestBody Cart cart) {
         return new ResponseEntity<>(cartService.save(cart), HttpStatus.CREATED);

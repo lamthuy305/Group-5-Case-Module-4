@@ -11,4 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ICartRepository extends PagingAndSortingRepository<Cart, Long> {
     @Query(value = "select * from carts join orders o on o.id = carts.order_id where order_id =?1", nativeQuery = true)
     Page<Cart> findCartByOrderId(Long id, Pageable pageable);
+
+    @Query(value = "select * from carts join orders o on o.id = carts.order_id where order_id =?1", nativeQuery = true)
+    Iterable<Cart> findCartByOrderId(Long id);
 }

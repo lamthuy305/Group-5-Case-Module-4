@@ -36,6 +36,11 @@ public class CartService implements ICartService {
 
     @Override
     public Page<Cart> findCartByOrderId(Long id, Pageable pageable) {
-        return cartRepository.findCartByOrderId(id,pageable);
+        return cartRepository.findCartByOrderId(id, pageable);
+    }
+
+    @Override
+    public Iterable<Cart> findCartByOrderId(Long id) {
+        return cartRepository.findCartByOrderId(id);
     }
 }

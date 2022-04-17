@@ -11,4 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface IOrderRepository extends PagingAndSortingRepository<Order, Long> {
     @Query(value = "select * from orders o join users on o.user_id = users.id where users.email like ?1", nativeQuery = true)
     Page<Order> findOrderByEmail(String email, Pageable pageable);
+
+    @Query(value = "select * from orders o join users on o.user_id = users.id where users.id = ?1", nativeQuery = true)
+    Page<Order> findOrderByUserId(Long id, Pageable pageable);
 }

@@ -103,6 +103,4 @@ public class CategoryController {
         List<IFoodCount> foodCountList = categorySerivce.countTotalFoodOfCategoryInterface();
         return new ResponseEntity<>(foodCountList, HttpStatus.OK);
     }
-
-
 }
