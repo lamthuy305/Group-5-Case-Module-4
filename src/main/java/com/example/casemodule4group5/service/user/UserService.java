@@ -59,8 +59,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Iterable<User> findAll() {
-        return userRepository.findAll();
+    public Iterable<User> findAllUser() {
+        return userRepository.checkUser();
     }
 
     @Override

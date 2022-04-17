@@ -18,7 +18,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Iterable<User>> findAll() {
-        Iterable<User> users = userService.findAll();
+        Iterable<User> users = userService.findAllUser();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping("/check")
     public ResponseEntity<User> checkUserBan(@RequestBody User user) {
-        Iterable<User> users = userService.findAll();
+        Iterable<User> users = userService.findAllUser();
         for (User user1 : users) {
             if (user1.getEmail().equals(user.getEmail())) {
                 return new ResponseEntity<>(user1, HttpStatus.OK);
