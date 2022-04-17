@@ -51,8 +51,7 @@ public class Food {
     @ManyToOne
     private Category category;
 
-    public Food(Long id, String name, String img, String description, double price, double salePrice, double serviceFee, Date dayCreate, Date dayChange, Long countViews, Long countBuys, User user, Category category) {
-        this.id = id;
+    public Food(String name, String img, String description, double price, double salePrice, double serviceFee, Date dayCreate, Date dayChange, Set<Tag> tags, Long countViews, Long countBuys, User user, Category category) {
         this.name = name;
         this.img = img;
         this.description = description;
@@ -61,6 +60,7 @@ public class Food {
         this.serviceFee = serviceFee;
         this.dayCreate = dayCreate;
         this.dayChange = dayChange;
+        this.tags = tags;
         this.countViews = countViews;
         this.countBuys = countBuys;
         this.user = user;

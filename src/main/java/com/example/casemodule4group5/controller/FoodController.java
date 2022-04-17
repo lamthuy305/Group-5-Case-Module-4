@@ -71,23 +71,15 @@ public class FoodController {
         String fileName = img.getOriginalFilename();
         long currentTime = System.currentTimeMillis();
         fileName = currentTime + fileName;
-        Long idMax = 0L;
-        Food foodMaxId = foodService.findfoodMaxId();
-        if (foodMaxId != null) {
-            idMax = foodMaxId.getId();
-        }
-        Long curentID = idMax + 1;
-        Date date = new Date();
         try {
             FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Food food = new Food(curentID, foodForm.getName(), fileName, foodForm.getDescription(), foodForm.getPrice(), foodForm.getSalePrice(), foodForm.getServiceFee(), date, date, foodForm.getTags(), 0L, 0L, foodForm.getUser(), foodForm.getCategory());
+        Date date = new Date();
+        Food food = new Food(foodForm.getName(), fileName, foodForm.getDescription(), foodForm.getPrice(), foodForm.getSalePrice(), foodForm.getServiceFee(), date, date, foodForm.getTags(), 0L, 0L, foodForm.getUser(), foodForm.getCategory());
         foodService.save(food);
-        Image imageFood = new Image(fileName, food);
-        imageService.save(imageFood);
-
+        Food foodCurent = foodService.findfoodMaxId();
 
         List<MultipartFile> images = foodForm.getImages();
         if (images.size() > 0) {
@@ -100,7 +92,7 @@ public class FoodController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                imageFood = new Image(fileName, food);
+                Image imageFood = new Image(fileName, foodCurent);
                 imageService.save(imageFood);
             }
             return new ResponseEntity<>(food, HttpStatus.CREATED);

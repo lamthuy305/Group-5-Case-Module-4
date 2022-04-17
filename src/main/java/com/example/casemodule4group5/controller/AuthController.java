@@ -12,6 +12,7 @@ import com.example.casemodule4group5.service.JwtService;
 import com.example.casemodule4group5.service.restaurant.IRestaurantService;
 import com.example.casemodule4group5.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,11 +20,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 
@@ -41,6 +45,10 @@ public class AuthController {
 
     @Autowired
     private JwtService jwtService;
+
+
+    @Value("${file-upload}")
+    private String uploadPath;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
@@ -61,34 +69,33 @@ public class AuthController {
         if (!signUpForm.getPasswordForm().getPassword().equals(signUpForm.getPasswordForm().getConfirmPassword()) || !userService.checkRegexPassword(signUpForm.getPasswordForm().getPassword()) || !userService.checkRegexEmail(signUpForm.getEmail())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        User user = new User(signUpForm.getName(), signUpForm.getEmail(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles(),true);
+        User user = new User(signUpForm.getName(), signUpForm.getEmail(), signUpForm.getPasswordForm().getPassword(), signUpForm.getRoles(), true);
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 
     @PostMapping("/registerCTV")
-    public ResponseEntity<User> registerCTV(@RequestParam Long id,@ModelAttribute RestaurantForm restaurantForm) {
+    public ResponseEntity<User> registerCTV(@RequestParam Long id, @ModelAttribute RestaurantForm restaurantForm) {
         Optional<User> user = userService.findById(id);
         if (!user.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Long idMax = 0L;
-        Restaurant restaurantMaxId = restaurantService.findRestaurantMaxID();
-        if (restaurantMaxId != null) {
-            idMax = restaurantMaxId.getId();
-        }
-        Long curentID = idMax + 1;
-
         MultipartFile img = restaurantForm.getImg();
         String fileName = img.getOriginalFilename();
         long currentTime = System.currentTimeMillis();
         fileName = currentTime + fileName;
+        try {
+            FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String name = restaurantForm.getName();
         String address = restaurantForm.getAddress();
         String openTime = restaurantForm.getOpenTime();
         String closeTime = restaurantForm.getCloseTime();
-        Restaurant restaurant = new Restaurant(curentID, name, fileName, address, openTime, closeTime);
+        Restaurant restaurant = new Restaurant(name, fileName, address, openTime, closeTime);
         restaurantService.save(restaurant);
-        user.get().setRestaurant(restaurant);
+        Restaurant restaurantCurent = restaurantService.findRestaurantMaxID();
+        user.get().setRestaurant(restaurantCurent);
         return new ResponseEntity<>(userService.saveCTV(user.get()), HttpStatus.OK);
     }
 

@@ -55,24 +55,19 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<Restaurant> save(@Valid @ModelAttribute RestaurantForm restaurantForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Restaurant> save(@ModelAttribute RestaurantForm restaurantForm) {
+        MultipartFile img = restaurantForm.getImg();
+        String fileName = img.getOriginalFilename();
+        long currentTime = System.currentTimeMillis();
+        fileName = currentTime + fileName;
+        try {
+            FileCopyUtils.copy(img.getBytes(), new File(uploadPath + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        MultipartFile image = restaurantForm.getImg();
-        if (image.getSize() != 0) {
-            String fileName = image.getOriginalFilename();
-            long currentTimeMillis = System.currentTimeMillis();
-            fileName = currentTimeMillis + fileName;
-            try {
-                FileCopyUtils.copy(image.getBytes(), new File(uploadPath + fileName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Restaurant restaurant = new Restaurant(restaurantForm.getId(), restaurantForm.getName(), fileName, restaurantForm.getAddress(), restaurantForm.getOpenTime(), restaurantForm.getCloseTime());
-            return new ResponseEntity<>(restaurantService.save(restaurant), HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Restaurant restaurant = new Restaurant(restaurantForm.getId(), restaurantForm.getName(), fileName, restaurantForm.getAddress(), restaurantForm.getOpenTime(), restaurantForm.getCloseTime());
+        restaurantService.save(restaurant);
+        return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
