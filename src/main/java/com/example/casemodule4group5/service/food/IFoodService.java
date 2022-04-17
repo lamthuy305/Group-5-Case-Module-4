@@ -12,5 +12,10 @@ public interface IFoodService extends IGeneralService<Food> {
 
     Page<Food> findAllFoodByTag(String slug, Pageable pageable);
 
+    Iterable<Food> findFoodByTopBuy();
+
+    Iterable<Food> findFoodByTopSale();
+
+    Page<Food> findFoodByCategoryId(Long id, Pageable pageable);
 
 }

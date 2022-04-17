@@ -18,9 +18,14 @@ public interface IFoodRepository extends PagingAndSortingRepository<Food, Long> 
     @Query(value = "select * from foods f join food_tag ft on f.id = ft.food_id where tag_id = (select id from tags where slug =?1)", nativeQuery = true)
     Page<Food> findAllFoodByTag(String slug, Pageable pageable);
 
+    @Query(value = "select * from foods order by foods.count_buys DESC limit 9", nativeQuery = true)
+    Iterable<Food> findFoodByTopBuy();
 
+    @Query(value = "select * from foods order by foods.sale_price DESC limit 9", nativeQuery = true)
+    Iterable<Food> findFoodByTopSale();
 
-
+    @Query(value = "select * from foods where category_id = ?1", nativeQuery = true)
+    Page<Food> findFoodByCategoryId(Long id, Pageable pageable);
 
 
 }
