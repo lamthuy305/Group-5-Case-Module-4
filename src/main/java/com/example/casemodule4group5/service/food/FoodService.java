@@ -64,4 +64,15 @@ public class FoodService implements IFoodService {
         return foodRepository.findFoodByCategoryId(id, pageable);
     }
 
+    @Override
+    public Page<Food> findAllFoodByUserId(Long id, Pageable pageable) {
+        return foodRepository.findAllFoodByUserId(id, pageable);
+    }
+
+    @Override
+    public Page<Food> findAllFoodByUserIdContaining(Long id, String name, Pageable pageable) {
+        name = "%" + name + "%";
+        return foodRepository.findAllFoodByUserIdContaining(id, name, pageable);
+    }
+
 }

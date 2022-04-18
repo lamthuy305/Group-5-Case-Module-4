@@ -40,6 +40,33 @@ public class CartFormController {
         return new ResponseEntity<>(cartForm, HttpStatus.OK);
     }
 
+    @PutMapping("/down/{id}")
+    public ResponseEntity<CartForm> getDownQuantityFoods(@PathVariable Long id) {
+        Optional<CartForm> cartForm = cartFormService.findById(id);
+        if (!cartForm.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        double quantity = cartForm.get().getQuantity();
+        if (quantity > 0) {
+            cartForm.get().setQuantity(quantity - 1);
+            cartFormService.save(cartForm.get());
+            return new ResponseEntity<>(cartForm.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/up/{id}")
+    public ResponseEntity<CartForm> getUpQuantityFoods(@PathVariable Long id) {
+        Optional<CartForm> cartForm = cartFormService.findById(id);
+        if (!cartForm.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        double quantity = cartForm.get().getQuantity();
+        cartForm.get().setQuantity(quantity + 1);
+        cartFormService.save(cartForm.get());
+        return new ResponseEntity<>(cartForm.get(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<CartForm> create(@RequestBody CartForm cartForm) {
         Iterable<CartForm> cartForms = cartFormService.findAllCartFormByUserId(cartForm.getUser().getId());

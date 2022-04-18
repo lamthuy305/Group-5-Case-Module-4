@@ -27,5 +27,10 @@ public interface IFoodRepository extends PagingAndSortingRepository<Food, Long> 
     @Query(value = "select * from foods where category_id = ?1", nativeQuery = true)
     Page<Food> findFoodByCategoryId(Long id, Pageable pageable);
 
+    @Query(value = "select * from foods where user_id = ?1", nativeQuery = true)
+    Page<Food> findAllFoodByUserId(Long id, Pageable pageable);
+
+    @Query(value = "select * from foods where (user_id = ?1 and name like ?2)", nativeQuery = true)
+    Page<Food> findAllFoodByUserIdContaining(Long id, String name, Pageable pageable);
 
 }

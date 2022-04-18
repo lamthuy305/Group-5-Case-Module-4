@@ -50,6 +50,15 @@ public class FoodController {
         return new ResponseEntity<>(foods, HttpStatus.OK);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Page<Food>> findAllFoodByUserId(@PathVariable(name = "id") Long id, @RequestParam(name = "q") Optional<String> q, Pageable pageable) {
+        Page<Food> foods = foodService.findAllFoodByUserId(id, pageable);
+        if (!q.isPresent()) {
+            return new ResponseEntity<>(foods, HttpStatus.OK);
+        }
+        foods = foodService.findAllFoodByUserIdContaining(id, q.get(), pageable);
+        return new ResponseEntity<>(foods, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Food> findById(@PathVariable Long id) {

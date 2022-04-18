@@ -25,4 +25,9 @@ public class Cart {
 
     private double quantity;
 
+    public Cart(Order order, Food food, double quantity) {
+        this.order = order;
+        this.food = food;
+        this.quantity = quantity;
+    }
 }

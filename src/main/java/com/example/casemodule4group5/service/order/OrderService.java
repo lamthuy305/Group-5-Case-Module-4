@@ -44,4 +44,14 @@ public class OrderService implements IOrderService {
     public Page<Order> findOrderByUserId(Long id, Pageable pageable) {
         return orderRepository.findOrderByUserId(id, pageable);
     }
+
+    @Override
+    public Page<Order> find6Order(Long id, Pageable pageable) {
+        return orderRepository.find6Order(id, pageable);
+    }
+
+    @Override
+    public Page<Order> findAllOrderByUserId(Long id, Pageable pageable) {
+        return orderRepository.findAllOrderByUserId(id, pageable);
+    }
 }

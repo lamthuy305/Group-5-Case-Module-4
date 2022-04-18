@@ -1,7 +1,13 @@
 package com.example.casemodule4group5.controller;
 
+import com.example.casemodule4group5.model.dto.CartForm;
 import com.example.casemodule4group5.model.entity.Cart;
+import com.example.casemodule4group5.model.entity.Order;
+import com.example.casemodule4group5.model.entity.User;
 import com.example.casemodule4group5.service.cart.ICartService;
+import com.example.casemodule4group5.service.cartform.ICartFormService;
+import com.example.casemodule4group5.service.order.IOrderService;
+import com.example.casemodule4group5.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +25,13 @@ import java.util.Optional;
 public class CartController {
     @Autowired
     private ICartService cartService;
+
+    @Autowired
+    private ICartFormService cartFormService;
+
+    @Autowired
+    private IOrderService orderService;
+
 
     @GetMapping
     public ResponseEntity<Page<Cart>> findAll(@RequestParam(name = "id") Optional<Long> id, @PageableDefault(20) Pageable pageable) {
@@ -39,6 +52,22 @@ public class CartController {
     @PostMapping
     public ResponseEntity<Cart> save(@RequestBody Cart cart) {
         return new ResponseEntity<>(cartService.save(cart), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Cart> createCart(@RequestParam(name = "id") Long id) {
+        Optional<Order> order = orderService.findById(id);
+        if (!order.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Long user_Id = order.get().getUser().getId();
+        Iterable<CartForm> cartForms = cartFormService.findAllCartFormByUserId(user_Id);
+        for (CartForm cartForm1 : cartForms) {
+            Cart cart = new Cart(order.get(), cartForm1.getFood(), cartForm1.getQuantity());
+            cartService.save(cart);
+            cartFormService.removeById(cartForm1.getId());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

@@ -21,4 +21,9 @@ public class Order {
     private User user;
 
     private Date createDate;
+
+    public Order(User user, Date createDate) {
+        this.user = user;
+        this.createDate = createDate;
+    }
 }
