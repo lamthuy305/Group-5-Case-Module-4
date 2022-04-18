@@ -34,6 +34,9 @@ public class TagController {
         if (!tagOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Long countViews = tagOptional.get().getCountViews();
+        tagOptional.get().setCountViews(countViews + 1);
+        tagService.save(tagOptional.get());
         return new ResponseEntity<>(tagOptional.get(), HttpStatus.OK);
     }
 

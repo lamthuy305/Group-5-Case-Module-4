@@ -14,4 +14,11 @@ public interface IOrderRepository extends PagingAndSortingRepository<Order, Long
 
     @Query(value = "select * from orders o join users on o.user_id = users.id where users.id = ?1", nativeQuery = true)
     Page<Order> findOrderByUserId(Long id, Pageable pageable);
+
+    @Query(value = "select * from orders o join users on o.user_id = users.id where users.id = ?1 order by o.id DESC", nativeQuery = true)
+    Page<Order> find6Order(Long id, Pageable pageable);
+
+    @Query(value = "select * from orders o join users on o.user_id = users.id where users.id = ?1", nativeQuery = true)
+    Page<Order> findAllOrderByUserId(Long id, Pageable pageable);
+
 }

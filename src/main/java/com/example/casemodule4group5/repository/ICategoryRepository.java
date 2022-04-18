@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ICategoryRepository extends PagingAndSortingRepository<Category, Long> {
-    @Query(value = "select categories.image,categories.name,count(foods.id) as 'totalFood' from categories join foods on categories.id = foods.category_id group by categories.image, categories.name", nativeQuery = true)
+    @Query(value = "select category_id, categories.image,categories.name,count(foods.id) as 'totalFood' from categories join foods on categories.id = foods.category_id group by categories.image, categories.name", nativeQuery = true)
     List<IFoodCount> countTotalFoodOfCategoryInterface();
 
     Iterable<Category> findAllByNameContaining(String name);

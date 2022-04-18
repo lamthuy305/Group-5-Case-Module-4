@@ -1,18 +1,19 @@
-package com.example.casemodule4group5.model.entity;
+package com.example.casemodule4group5.model.dto;
 
+import com.example.casemodule4group5.model.entity.Food;
+import com.example.casemodule4group5.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "cart_form")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class CartForm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,10 +21,9 @@ public class Order {
     @ManyToOne
     private User user;
 
-    private Date createDate;
+    @OneToOne
+    private Food food;
 
-    public Order(User user, Date createDate) {
-        this.user = user;
-        this.createDate = createDate;
-    }
+    private double quantity;
+
 }

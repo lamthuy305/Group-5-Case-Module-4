@@ -49,4 +49,30 @@ public class FoodService implements IFoodService {
         return foodRepository.findAllFoodByTag(slug, pageable);
     }
 
+    @Override
+    public Iterable<Food> findFoodByTopBuy() {
+        return foodRepository.findFoodByTopBuy();
+    }
+
+    @Override
+    public Iterable<Food> findFoodByTopSale() {
+        return foodRepository.findFoodByTopSale();
+    }
+
+    @Override
+    public Page<Food> findFoodByCategoryId(Long id, Pageable pageable) {
+        return foodRepository.findFoodByCategoryId(id, pageable);
+    }
+
+    @Override
+    public Page<Food> findAllFoodByUserId(Long id, Pageable pageable) {
+        return foodRepository.findAllFoodByUserId(id, pageable);
+    }
+
+    @Override
+    public Page<Food> findAllFoodByUserIdContaining(Long id, String name, Pageable pageable) {
+        name = "%" + name + "%";
+        return foodRepository.findAllFoodByUserIdContaining(id, name, pageable);
+    }
+
 }

@@ -4,7 +4,7 @@ import com.example.casemodule4group5.model.dto.FoodForm;
 import com.example.casemodule4group5.model.entity.Category;
 import com.example.casemodule4group5.model.entity.Food;
 import com.example.casemodule4group5.model.entity.Image;
-import com.example.casemodule4group5.model.entity.Tag;
+import com.example.casemodule4group5.service.category.ICategorySerivce;
 import com.example.casemodule4group5.service.food.IFoodService;
 import com.example.casemodule4group5.service.image.IImageService;
 import com.example.casemodule4group5.service.tag.ITagService;
@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
@@ -35,9 +34,6 @@ public class FoodController {
 
     @Autowired
     private IImageService imageService;
-
-    @Autowired
-    private ITagService tagService;
 
     @Value("${file-upload}")
     private String uploadPath;
@@ -54,14 +50,26 @@ public class FoodController {
         return new ResponseEntity<>(foods, HttpStatus.OK);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Page<Food>> findAllFoodByUserId(@PathVariable(name = "id") Long id, @RequestParam(name = "q") Optional<String> q, Pageable pageable) {
+        Page<Food> foods = foodService.findAllFoodByUserId(id, pageable);
+        if (!q.isPresent()) {
+            return new ResponseEntity<>(foods, HttpStatus.OK);
+        }
+        foods = foodService.findAllFoodByUserIdContaining(id, q.get(), pageable);
+        return new ResponseEntity<>(foods, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Food> findById(@PathVariable Long id) {
-        Optional<Food> productOptional = foodService.findById(id);
-        if (!productOptional.isPresent()) {
+        Optional<Food> foodOptional = foodService.findById(id);
+        if (!foodOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);
+        Long countViews = foodOptional.get().getCountViews();
+        foodOptional.get().setCountViews(countViews + 1);
+        foodService.save(foodOptional.get());
+        return new ResponseEntity<>(foodOptional.get(), HttpStatus.OK);
     }
 
 
@@ -133,11 +141,30 @@ public class FoodController {
         if (!productOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         Iterable<Image> images = imageService.findImageByFoodId(id);
         for (Image image : images) {
             imageService.removeById(image.getId());
         }
         foodService.removeById(id);
         return new ResponseEntity<>(productOptional.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/topbuy")
+    public ResponseEntity<Iterable<Food>> findFoodByTopBuy() {
+        Iterable<Food> foods = foodService.findFoodByTopBuy();
+        return new ResponseEntity<>(foods, HttpStatus.OK);
+    }
+
+    @GetMapping("/topsale")
+    public ResponseEntity<Iterable<Food>> findFoodByTopSale() {
+        Iterable<Food> foods = foodService.findFoodByTopSale();
+        return new ResponseEntity<>(foods, HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<Page<Food>> findFoodByCategoryId(@PathVariable Long id, @PageableDefault(20) Pageable pageable) {
+        Page<Food> foods = foodService.findFoodByCategoryId(id, pageable);
+        return new ResponseEntity<>(foods, HttpStatus.OK);
     }
 }
